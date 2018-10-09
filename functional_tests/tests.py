@@ -74,6 +74,50 @@ class NewVisitorTest(LiveServerTestCase):
         # A página é atualizada novamente e agora mostras os dois itens em sua lista
         self.wait_for_row_in_list_table('1: Buy peacock feathers')
         self.wait_for_row_in_list_table('2: Use peacock feathers to make a fly')
+
+        # Satisfeita, ela volta a dormir
+
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        #Edith inicia uma nova lista de tarefas
+        self.browser.get(self.live_server_url)
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Buy peacock feathers')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Buy peacock feathers')
+
+        # Ela percebe que sua lista tem um URL único
+        edith_list_utl = self.browser.current_url
+        self.assertRegex(edith_list_utl, '/lists/.+')
+
+        # Agora um novo úsuario, Francis, chega ao site
+
+        ## Usamos uma nova sessão de navegador para garantir que nenhuma informação
+        ## de Edith está vindo de cookies etc
+        self.browser.quit()
+        self.browser.Firefox()
+
+        # Francis acessa a página inicial. Não há nenhum sinal da lista de Edith
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNoIn('Buy peacock feathers', page_text)
+        self.assertNoIn('make a fly', page_text)
+
+        # Francis inicia uam nova lista inserindo um item novo. Ele
+        # é menos interessane que Edith
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Buy miilk')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Buy milk')
+
+        # Francis obtem seu propio URL excluisvo
+        francis_lists_url = self.browser.current_url
+        self.assertRegex(francis_lists_url, '/lists/.+')
+
+        # Novamente não ha nenhum sinal da lista de Edith
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Buy milk', page_text)
+
+        # Satisfeitos ambos voltam a dormir
         
         # Edith se pergunta se o site lembrará de sua lista. Então ela nota
         # que o site gerou uma URL única para ela -- há um pequeno texto
