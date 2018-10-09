@@ -36,7 +36,7 @@ class NewVisitorTest(LiveServerTestCase):
                 time.sleep(0.5)
 
     def test_can_start_a_list_and_retrive_it_later(self):
-        # Gabriel ouviu falar de uma nova aplicação online interessante para
+        # Edith ouviu falar de uma nova aplicação online interessante para
         # lista de tarefas. Ela decife acessar sua homepage
         self.browser.get(self.live_server_url)
 
@@ -54,7 +54,7 @@ class NewVisitorTest(LiveServerTestCase):
         )
 
         # Ela digita "Buy peacock feathers" (Comprar penas de pavão) em uma caixa
-        # de texto (o hoby de Gabriel é fazer iscas para pescas com fly)
+        # de texto (o hoby de Edith é fazer iscas para pescas com fly)
         inputbox.send_keys('Buy peacock feathers')
 
         # Quando ela tecla enter, a página é atualizada, e agora a página lista
