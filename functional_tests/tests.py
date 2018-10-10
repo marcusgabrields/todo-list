@@ -94,13 +94,13 @@ class NewVisitorTest(LiveServerTestCase):
         ## Usamos uma nova sessão de navegador para garantir que nenhuma informação
         ## de Edith está vindo de cookies etc
         self.browser.quit()
-        self.browser.Firefox()
+        self.browser = webdriver.Firefox()
 
         # Francis acessa a página inicial. Não há nenhum sinal da lista de Edith
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNoIn('Buy peacock feathers', page_text)
-        self.assertNoIn('make a fly', page_text)
+        self.assertNotIn('Buy peacock feathers', page_text)
+        self.assertNotIn('make a fly', page_text)
 
         # Francis inicia uam nova lista inserindo um item novo. Ele
         # é menos interessane que Edith
