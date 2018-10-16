@@ -35,7 +35,7 @@ class NewVisitorTest(LiveServerTestCase):
                     raise e
                 time.sleep(0.5)
 
-    def test_can_start_a_list_and_retrive_it_later(self):
+    def test_can_start_a_list_for_one_user(self):
         # Edith ouviu falar de uma nova aplicação online interessante para
         # lista de tarefas. Ela decife acessar sua homepage
         self.browser.get(self.live_server_url)
@@ -60,7 +60,6 @@ class NewVisitorTest(LiveServerTestCase):
         # Quando ela tecla enter, a página é atualizada, e agora a página lista
         # "1: Buy peacock feather" como um item em uma lista de tarefas
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
         self.wait_for_row_in_list_table('1: Buy peacock feathers')
 
         # Ainda continua havendo uma caixa de texto convidando-a a acrecentar outro
@@ -72,8 +71,8 @@ class NewVisitorTest(LiveServerTestCase):
         time.sleep(1)
 
         # A página é atualizada novamente e agora mostras os dois itens em sua lista
-        self.wait_for_row_in_list_table('1: Buy peacock feathers')
         self.wait_for_row_in_list_table('2: Use peacock feathers to make a fly')
+        self.wait_for_row_in_list_table('1: Buy peacock feathers')
 
         # Satisfeita, ela volta a dormir
 
@@ -105,7 +104,7 @@ class NewVisitorTest(LiveServerTestCase):
         # Francis inicia uam nova lista inserindo um item novo. Ele
         # é menos interessane que Edith
         inputbox = self.browser.find_element_by_id('id_new_item')
-        inputbox.send_keys('Buy miilk')
+        inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy milk')
 
